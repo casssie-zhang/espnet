@@ -33,7 +33,7 @@ from espnet2.asr.encoder.transformer_encoder import TransformerEncoder
 from espnet2.asr.encoder.vgg_rnn_encoder import VGGRNNEncoder
 from espnet2.asr.espnet_model import ESPnetASRModel
 from espnet2.asr.frontend.abs_frontend import AbsFrontend
-# from espnet2.asr.frontend.default import DefaultFrontend
+from espnet2.asr.frontend.default import DefaultFrontend
 from espnet2.asr.frontend.wav2vec import Wav2vecFrontend
 from espnet2.asr.specaug.abs_specaug import AbsSpecAug
 from espnet2.asr.specaug.specaug import SpecAug
@@ -52,19 +52,19 @@ from espnet2.utils.types import int_or_none
 from espnet2.utils.types import str2bool
 from espnet2.utils.types import str_or_none
 
+frontend_choices = ClassChoices(
+    name="frontend",
+    classes=dict(default=DefaultFrontend),
+    type_check=AbsFrontend,
+    default="default",
+)
+
 # frontend_choices = ClassChoices(
 #     name="frontend",
 #     classes=dict(default=Wav2vecFrontend),
 #     type_check=AbsFrontend,
-#     default="wav2vec",
+#     default="default",
 # )
-
-frontend_choices = ClassChoices(
-    name="frontend",
-    classes=dict(default=Wav2vecFrontend),
-    type_check=AbsFrontend,
-    default="default",
-)
 
 specaug_choices = ClassChoices(
     name="specaug",
