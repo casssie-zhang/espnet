@@ -63,7 +63,7 @@ frontend_choices = ClassChoices(
     name="frontend",
     classes=dict(default=Wav2vecFrontend),
     type_check=AbsFrontend,
-    default="wav2vec",
+    default="default",
 )
 
 specaug_choices = ClassChoices(
