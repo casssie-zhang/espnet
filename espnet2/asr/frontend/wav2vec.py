@@ -47,12 +47,16 @@ class Wav2vecFrontend(AbsFrontend):
         
         model, cfg, task = fairseq.checkpoint_utils.load_model_ensemble_and_task([model_path])
         print("Wav2Vec model successfully loaded!")
+
+        DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
+
         model = model[0]
         if type(model) == Wav2VecCtc:
             model = model.w2v_encoder.w2v_model
         elif type(model) == Wav2Vec2Model:
-            model = model
+            pass
 
+        model.to(DEVICE)
         self.wav2vec = model
         self.embedding_dim = embedding_dim
 
@@ -63,8 +67,8 @@ class Wav2vecFrontend(AbsFrontend):
         self, input: torch.Tensor, input_lengths: torch.Tensor
     ) -> Tuple[torch.Tensor, torch.Tensor]:
 
-        print(input.shape, type(input))
         input_feats = self.wav2vec.forward(input, mask=False, features_only=True)['x']
+        input_feats = input_feats.detach()
         feats_lens = []
         for lens in input_lengths:
             feats_lens.append(get_output_lens(self.wav2vec, lens))
