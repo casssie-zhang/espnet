@@ -44,7 +44,10 @@ class Wav2vecFrontend(AbsFrontend):
         super().__init__()
         
         model, cfg, task = fairseq.checkpoint_utils.load_model_ensemble_and_task([model_path])
+        print("Wav2Vec model successfully loaded!")
         model = model[0]
+        print(type(model))
+        print(model.forward)
         self.wav2vec = model
         self.embedding_dim = embedding_dim
 
@@ -55,11 +58,10 @@ class Wav2vecFrontend(AbsFrontend):
         self, input: torch.Tensor, input_lengths: torch.Tensor
     ) -> Tuple[torch.Tensor, torch.Tensor]:
 
-
         input_feats = self.wav2vec.forward(input, mask=False, features_only=True)['x']
         feats_lens = []
-        for len in input_lengths:
-            feats_lens.append(get_output_lens(self.wav2vec, len))
+        for lens in input_lengths:
+            feats_lens.append(get_output_lens(self.wav2vec, lens))
         feats_lens = torch.stack(feats_lens)
         
         print("feats is working!")
