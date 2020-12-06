@@ -839,7 +839,7 @@ if ! "${skip_train}"; then
                 # "sound" supports "wav", "flac", etc.
                 _type=sound
             fi
-            _opts+="--frontend_conf fs=${fs} "
+#            _opts+="--frontend_conf fs=${fs} "
         else
             _scp=feats.scp
             _type=kaldi_ark
