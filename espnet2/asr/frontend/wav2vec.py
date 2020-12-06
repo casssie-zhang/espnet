@@ -58,6 +58,7 @@ class Wav2vecFrontend(AbsFrontend):
         self, input: torch.Tensor, input_lengths: torch.Tensor
     ) -> Tuple[torch.Tensor, torch.Tensor]:
 
+        print(input.shape, type(input))
         input_feats = self.wav2vec.forward(input, mask=False, features_only=True)['x']
         feats_lens = []
         for lens in input_lengths:
