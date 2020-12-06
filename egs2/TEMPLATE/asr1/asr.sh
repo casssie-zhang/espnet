@@ -85,7 +85,7 @@ asr_config=    # Config for asr model training.
 asr_args=      # Arguments for asr model training, e.g., "--max_epoch 10".
                # Note that it will overwrite args in asr config.
 feats_normalize=global_mvn # Normalizaton layer type.
-num_splits_asr=1           # Number of splitting for lm corpus.
+num_splits_asr=4           # Number of splitting for lm corpus.
 
 # Decoding related
 inference_tag=    # Suffix to the result dir for decoding.
