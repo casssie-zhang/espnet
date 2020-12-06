@@ -48,15 +48,18 @@ class Wav2vecFrontend(AbsFrontend):
         model, cfg, task = fairseq.checkpoint_utils.load_model_ensemble_and_task([model_path])
         print("Wav2Vec model successfully loaded!")
 
-        DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
-
         model = model[0]
         if type(model) == Wav2VecCtc:
             model = model.w2v_encoder.w2v_model
         elif type(model) == Wav2Vec2Model:
             pass
 
-        model.to(DEVICE)
+        # freeze layers:
+        for child in model.children():
+            for param in child.parameters():
+                param.requires_grad = False
+        print("Setting all Wav2vec layers parameters requires_grad=False")
+
         self.wav2vec = model
         self.embedding_dim = embedding_dim
 
