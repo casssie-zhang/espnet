@@ -69,7 +69,5 @@ class Wav2vecFrontend(AbsFrontend):
         for lens in input_lengths:
             feats_lens.append(get_output_lens(self.wav2vec, lens))
         feats_lens = torch.stack(feats_lens)
-        
-        print("feats is working!")
 
         return input_feats, feats_lens
