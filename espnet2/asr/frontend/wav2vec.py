@@ -15,6 +15,8 @@ from espnet2.asr.frontend.abs_frontend import AbsFrontend
 # from espnet2.layers.stft import Stft
 # from espnet2.utils.get_default_kwargs import get_default_kwargs
 import fairseq
+from fairseq.models.wav2vec.wav2vec2_asr import Wav2VecCtc
+from fairseq.models.wav2vec.wav2vec2 import Wav2Vec2Model
 
 def get_output_lens(wav2vec_model, input_lens):
     out = input_lens
@@ -46,8 +48,11 @@ class Wav2vecFrontend(AbsFrontend):
         model, cfg, task = fairseq.checkpoint_utils.load_model_ensemble_and_task([model_path])
         print("Wav2Vec model successfully loaded!")
         model = model[0]
-        print(type(model))
-        print(model.forward)
+        if type(model) == Wav2VecCtc:
+            model = model.w2v_encoder.w2v_model
+        elif type(model) == Wav2Vec2Model:
+            model = model
+
         self.wav2vec = model
         self.embedding_dim = embedding_dim
 
