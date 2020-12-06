@@ -33,10 +33,16 @@ class Wav2vecFrontend(AbsFrontend):
         self,
         model_path="/home/ubuntu/project/manifest/train/outputs/2020-12-04/06-26-12/checkpoints/checkpoint_best.pt",
         embedding_dim:int=768):
+        """
+        Args:
+            model_path: wav2vec model path
+                without finetuning:  /home/ubuntu/project/model/wav2vec_small.pt
+                finetuning best checkpoint:  /home/ubuntu/project/manifest/train/outputs/2020-12-04/06-26-12/checkpoints/checkpoint_best.pt
+            embedding_dim: model output features dim
+        """
         assert check_argument_types()
         super().__init__()
         
-        # cp = '/home/ubuntu/project/manifest/train/outputs/2020-12-04/06-26-12/checkpoints/checkpoint_best.pt'
         model, cfg, task = fairseq.checkpoint_utils.load_model_ensemble_and_task([model_path])
         model = model[0]
         self.wav2vec = model
