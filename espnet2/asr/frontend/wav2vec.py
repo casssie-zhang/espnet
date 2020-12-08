@@ -61,7 +61,7 @@ class Wav2vecFrontend(AbsFrontend):
         self.feature_extractor = model.feature_extractor
         del model
         self.embedding_dim = embedding_dim
-        self.layer_norm = LayerNorm(self.embedding_dim)
+        # self.layer_norm = LayerNorm(self.embedding_dim)
 
 
     def output_size(self) -> int:
@@ -75,7 +75,7 @@ class Wav2vecFrontend(AbsFrontend):
             input_feats = self.feature_extractor(input) # freeze input
 
         input_feats = input_feats.transpose(1,2)
-        input_feats = self.layer_norm(input_feats)
+        # input_feats = self.layer_norm(input_feats)
 
         feats_lens = []
         for lens in input_lengths:
