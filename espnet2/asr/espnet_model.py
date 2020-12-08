@@ -47,6 +47,7 @@ class ESPnetASRModel(AbsESPnetModel):
         decoder: AbsDecoder,
         ctc: CTC,
         rnnt_decoder: None,
+        is_wav2vec_encoder=True,
         ctc_weight: float = 0.5,
         ignore_id: int = -1,
         lsm_weight: float = 0.0,
@@ -73,6 +74,9 @@ class ESPnetASRModel(AbsESPnetModel):
         self.specaug = specaug
         self.normalize = normalize
         self.adddiontal_utt_mvn = None
+
+        self.isWav2vec = is_wav2vec_encoder
+
         self.encoder = encoder
         self.decoder = decoder
         if ctc_weight == 0.0:
@@ -185,24 +189,29 @@ class ESPnetASRModel(AbsESPnetModel):
             speech: (Batch, Length, ...)
             speech_lengths: (Batch, )
         """
-        with autocast(False):
-            # 1. Extract feats
-            feats, feats_lengths = self._extract_feats(speech, speech_lengths)
 
-            # 2. Data augmentation for spectrogram
-            if self.specaug is not None and self.training:
-                feats, feats_lengths = self.specaug(feats, feats_lengths)
+        if not self.isWav2vec:
+            with autocast(False):
+                # 1. Extract feats
+                feats, feats_lengths = self._extract_feats(speech, speech_lengths)
 
-            # 3. Normalization for feature: e.g. Global-CMVN, Utterance-CMVN
-            if self.normalize is not None:
-                feats, feats_lengths = self.normalize(feats, feats_lengths)
-                if self.adddiontal_utt_mvn is not None:
-                    feats, feats_lengths = self.adddiontal_utt_mvn(feats, feats_lengths)
+                # 2. Data augmentation for spectrogram
+                if self.specaug is not None and self.training:
+                    feats, feats_lengths = self.specaug(feats, feats_lengths)
 
-        # 4. Forward encoder
-        # feats: (Batch, Length, Dim)
-        # -> encoder_out: (Batch, Length2, Dim2)
-        encoder_out, encoder_out_lens, _ = self.encoder(feats, feats_lengths)
+                # 3. Normalization for feature: e.g. Global-CMVN, Utterance-CMVN
+                if self.normalize is not None:
+                    feats, feats_lengths = self.normalize(feats, feats_lengths)
+                    if self.adddiontal_utt_mvn is not None:
+                        feats, feats_lengths = self.adddiontal_utt_mvn(feats, feats_lengths)
+
+            # 4. Forward encoder
+            # feats: (Batch, Length, Dim)
+            # -> encoder_out: (Batch, Length2, Dim2)
+            encoder_out, encoder_out_lens, _ = self.encoder(feats, feats_lengths)
+        else:
+            #wav2vec encoder, skip feature extraction
+            encoder_out, encoder_out_lens, _ = self.encoder(speech, speech_lengths)
 
         assert encoder_out.size(0) == speech.size(0), (
             encoder_out.size(),

@@ -30,6 +30,7 @@ from espnet2.asr.encoder.abs_encoder import AbsEncoder
 from espnet2.asr.encoder.conformer_encoder import ConformerEncoder
 from espnet2.asr.encoder.rnn_encoder import RNNEncoder
 from espnet2.asr.encoder.transformer_encoder import TransformerEncoder
+from espnet2.asr.encoder.wav2vec_encoder import Wav2vecTransformerEncoder
 from espnet2.asr.encoder.vgg_rnn_encoder import VGGRNNEncoder
 from espnet2.asr.espnet_model import ESPnetASRModel
 from espnet2.asr.frontend.abs_frontend import AbsFrontend
@@ -54,7 +55,7 @@ from espnet2.utils.types import str_or_none
 
 frontend_choices = ClassChoices(
     name="frontend",
-    classes=dict(default=Wav2vecFrontend),
+    classes=dict(default=DefaultFrontend),
     type_check=AbsFrontend,
     default="default",
 )
@@ -87,7 +88,7 @@ encoder_choices = ClassChoices(
     "encoder",
     classes=dict(
         conformer=ConformerEncoder,
-        transformer=TransformerEncoder,
+        transformer=Wav2vecTransformerEncoder,
         vgg_rnn=VGGRNNEncoder,
         rnn=RNNEncoder,
     ),

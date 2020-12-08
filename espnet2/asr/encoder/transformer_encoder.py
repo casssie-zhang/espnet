@@ -167,7 +167,10 @@ class TransformerEncoder(AbsEncoder):
             xs_pad, masks = self.embed(xs_pad, masks)
         else:
             xs_pad = self.embed(xs_pad)
+
+
         xs_pad, masks = self.encoders(xs_pad, masks)
+
         if self.normalize_before:
             xs_pad = self.after_norm(xs_pad)
 

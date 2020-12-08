@@ -38,8 +38,10 @@ class Wav2vecFrontend(AbsFrontend):
         """
         Args:
             model_path: wav2vec model path
-                without finetuning:  /home/ubuntu/project/model/wav2vec_small.pt
-                finetuning best checkpoint:  /home/ubuntu/project/manifest/train/outputs/2020-12-04/06-26-12/checkpoints/checkpoint_best.pt
+                without finetuning:
+                /home/ubuntu/project/model/wav2vec_small.pt
+                finetuning best checkpoint:
+                /home/ubuntu/project/manifest/train/outputs/2020-12-04/06-26-12/checkpoints/checkpoint_best.pt
             embedding_dim: model output features dim
         """
         assert check_argument_types()
