@@ -76,6 +76,8 @@ class ESPnetASRModel(AbsESPnetModel):
         self.adddiontal_utt_mvn = None
 
         self.isWav2vec = is_wav2vec_encoder
+        if is_wav2vec_encoder:
+            print("skip default Frontend")
 
         self.encoder = encoder
         self.decoder = decoder

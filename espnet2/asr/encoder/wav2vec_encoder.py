@@ -63,7 +63,7 @@ class Wav2vecTransformerEncoder(AbsEncoder):
     def __init__(
         self,
         input_size,
-        output_size: int = 256,
+        output_size: int = 768,
         dropout_rate: float = 0.1,
         model_path="/home/ubuntu/project/manifest/train/outputs/2020-12-04/06-26-12/checkpoints/checkpoint_best.pt",
     ):
@@ -113,6 +113,6 @@ class Wav2vecTransformerEncoder(AbsEncoder):
             feats_lens.append(get_output_lens(self.wav2vec, lens))
         olens = torch.stack(feats_lens)
 
-        xs_pad = self.projection(xs_pad)
+        # xs_pad = self.projection(xs_pad)
 
         return xs_pad, olens, None
