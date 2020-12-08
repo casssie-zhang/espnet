@@ -27,9 +27,9 @@ import fairseq
 from fairseq.models.wav2vec.wav2vec2_asr import Wav2VecCtc
 from fairseq.models.wav2vec.wav2vec2 import Wav2Vec2Model
 
-def get_output_lens(wav2vec_model, input_lens):
+def get_output_lens(conv_layers, input_lens):
     out = input_lens
-    for layer in wav2vec_model.feature_extractor.conv_layers:
+    for layer in conv_layers:
         conv_layer = layer[0]
         kernel_size, stride = conv_layer.kernel_size, conv_layer.stride
         out = (out-kernel_size[0]) // stride[0] + 1
@@ -109,7 +109,7 @@ class Wav2vecTransformerEncoder(AbsEncoder):
         xs_pad = self.wav2vec.forward(xs_pad, mask=False, features_only=True)['x']
         feats_lens = []
         for lens in ilens:
-            feats_lens.append(get_output_lens(self.wav2vec, lens))
+            feats_lens.append(get_output_lens(self.wav2vec.feature_extractor.conv_layers, lens))
         olens = torch.stack(feats_lens)
 
         # xs_pad = self.projection(xs_pad)

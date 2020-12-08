@@ -19,9 +19,9 @@ from fairseq.models.wav2vec.wav2vec2_asr import Wav2VecCtc
 from fairseq.models.wav2vec.wav2vec2 import Wav2Vec2Model
 from fairseq.modules import LayerNorm
 
-def get_output_lens(wav2vec_model, input_lens):
+def get_output_lens(conv_layers, input_lens):
     out = input_lens
-    for layer in wav2vec_model.feature_extractor.conv_layers:
+    for layer in conv_layers:
         conv_layer = layer[0]
         kernel_size, stride = conv_layer.kernel_size, conv_layer.stride
         out = (out-kernel_size[0]) // stride[0] + 1
@@ -74,15 +74,15 @@ class Wav2vecFrontend(AbsFrontend):
 
         with torch.no_grad():
             input_feats = self.feature_extractor(input) # freeze input
-        # input_feats = input_feats.transpose(1,2)
-        # input_feats = self.layer_norm(input_feats)
+        input_feats = input_feats.transpose(1,2)
+        input_feats = self.layer_norm(input_feats)
 
         input_feats = input_feats.detach()
 
 
         feats_lens = []
         for lens in input_lengths:
-            feats_lens.append(get_output_lens(self.wav2vec, lens))
+            feats_lens.append(get_output_lens(self.feature_extractor.conv_layers, lens))
         feats_lens = torch.stack(feats_lens)
 
         return input_feats, feats_lens
