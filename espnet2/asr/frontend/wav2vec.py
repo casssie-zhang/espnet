@@ -17,6 +17,7 @@ from espnet2.asr.frontend.abs_frontend import AbsFrontend
 import fairseq
 from fairseq.models.wav2vec.wav2vec2_asr import Wav2VecCtc
 from fairseq.models.wav2vec.wav2vec2 import Wav2Vec2Model
+from fairseq.modules import LayerNorm
 
 def get_output_lens(wav2vec_model, input_lens):
     out = input_lens
@@ -34,7 +35,7 @@ class Wav2vecFrontend(AbsFrontend):
     def __init__(
         self,
         model_path="/home/ubuntu/project/manifest/train/outputs/2020-12-04/06-26-12/checkpoints/checkpoint_best.pt",
-        embedding_dim:int=768):
+        embedding_dim:int=512):
         """
         Args:
             model_path: wav2vec model path
@@ -56,14 +57,11 @@ class Wav2vecFrontend(AbsFrontend):
         elif type(model) == Wav2Vec2Model:
             pass
 
-        # freeze layers:
-        for child in model.children():
-            for param in child.parameters():
-                param.requires_grad = False
-        print("Setting all Wav2vec layers parameters requires_grad=False")
 
-        self.wav2vec = model
+        self.feature_extractor = model.feature_extractor
         self.embedding_dim = embedding_dim
+        self.layer_norm = LayerNorm(self.embedding_dim)
+
 
     def output_size(self) -> int:
         return self.embedding_dim
@@ -72,8 +70,12 @@ class Wav2vecFrontend(AbsFrontend):
         self, input: torch.Tensor, input_lengths: torch.Tensor
     ) -> Tuple[torch.Tensor, torch.Tensor]:
 
-        input_feats = self.wav2vec.forward(input, mask=False, features_only=True)['x']
-        input_feats = input_feats.detach()
+        with torch.no_grad():
+            input_feats = self.feature_extractor(input) # freeze input
+
+        input_feats = input_feats.transpose(1,2)
+        input_feats = self.layer_norm(input_feats)
+
         feats_lens = []
         for lens in input_lengths:
             feats_lens.append(get_output_lens(self.wav2vec, lens))

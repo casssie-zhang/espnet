@@ -11,6 +11,11 @@ best_model_criterion:
     - max
 keep_nbest_models: 10
 
+frontend: wav2vec
+frontend_conf:
+    model_path: /home/ubuntu/project/manifest/train/outputs/2020-12-04/06-26-12/checkpoints/checkpoint_best.pt
+    embedding_dim: 512
+
 encoder: transformer
 encoder_conf:
     output_size: 256
@@ -21,7 +26,10 @@ encoder_conf:
     positional_dropout_rate: 0.1
     attention_dropout_rate: 0.0
     input_layer: conv2d
+    input_size: 512 # fit to frontend output size
+    input_layer: linear
     normalize_before: true
+
 
 decoder: transformer
 decoder_conf:
@@ -37,6 +45,7 @@ model_conf:
     ctc_weight: 0.3
     lsm_weight: 0.1
     length_normalized_loss: false
+    is_wav2vec_encoder: false # if use wav2vec encoder
 
 optim: adam
 optim_conf:

@@ -3,7 +3,7 @@
 
 ## Using Transformer LM (ASR model is same as the above): lm_weight=1.2, ctc_weight=0.3, beam_size=20
 
-- ASR config: [conf/tuning/train_asr_transformer2.yaml](conf/tuning/train_asr_transformer2.yaml)
+- ASR config: [conf/tuning/train_asr_transformer2.yaml](conf/tuning/train_asr_transformer_wav2vec_encoder.yaml)
 - LM config: [conf/tuning/train_lm_transformer.yaml](conf/tuning/train_lm_transformer.yaml)
 - Decode config:  [conf/decode.conf](conf/decode.conf)
 - Pretrained model: https://zenodo.org/record/4243201
@@ -25,7 +25,7 @@
 
 ## Update decode config (same config as the above model): lm_weight=1.2, ctc_weight=0.3, beam_size=20
 
-- ASR config: [conf/tuning/train_asr_transformer2.yaml](conf/tuning/train_asr_transformer2.yaml)
+- ASR config: [conf/tuning/train_asr_transformer2.yaml](conf/tuning/train_asr_transformer_wav2vec_encoder.yaml)
 - LM config: [conf/tuning/train_lm_adam_layers4.yaml](conf/tuning/train_lm_adam_layers4.yaml)
 - Decode config:  [conf/decode.conf](conf/decode.conf)
 - Pretrained model: https://zenodo.org/record/4003381/
@@ -44,7 +44,7 @@
 |decode.conf_ctc_weight0.3_lm_weight1.2_lm_lm_train_lm_char_optimadam_batch_size512_optim_conflr0.0005_lm_confnlayers4_valid.loss.ave_asr_model_valid.acc.ave/test_dev93|503|48634|97.6|1.1|1.3|0.6|3.0|61.2|
 |decode.conf_ctc_weight0.3_lm_weight1.2_lm_lm_train_lm_char_optimadam_batch_size512_optim_conflr0.0005_lm_confnlayers4_valid.loss.ave_asr_model_valid.acc.ave/test_eval92|333|33341|98.5|0.7|0.8|0.5|2.0|50.2|
 
-## Update only RNN-LM:  [Transformer](./conf/tuning/train_asr_transformer2.yaml) with [Char-LM](./conf/tuning/train_lm_adam_layers4.yaml)
+## Update only RNN-LM:  [Transformer](conf/tuning/train_asr_transformer_wav2vec_encoder.yaml) with [Char-LM](./conf/tuning/train_lm_adam_layers4.yaml)
 ### Environments
 - date: `Mon Aug 24 11:52:54 JST 2020`
 - python version: `3.7.3 (default, Mar 27 2019, 22:11:17)  [GCC 7.3.0]`
@@ -69,7 +69,7 @@
 |inference_lm_lm_train_lm_char_optimadam_batch_size512_optim_conflr0.0005_lm_confnlayers4_valid.loss.ave_asr_model_valid.acc.ave/test_eval92|333|33341|98.5|0.7|0.8|0.5|2.0|53.2|
 
 
-## FBANK without pitch, [Transformer, bs=32, accum_grad=8, warmup_steps=30000, 100epoch](./conf/tuning/train_asr_transformer2.yaml) with [Char-LM](./conf/tuning/train_lm_adagrad.yaml)
+## FBANK without pitch, [Transformer, bs=32, accum_grad=8, warmup_steps=30000, 100epoch](conf/tuning/train_asr_transformer_wav2vec_encoder.yaml) with [Char-LM](./conf/tuning/train_lm_adagrad.yaml)
 ### Environments
 - date: `Mon Mar 23 18:20:34 JST 2020`
 - python version: `3.7.5 (default, Oct 25 2019, 15:51:11)  [GCC 7.3.0]`

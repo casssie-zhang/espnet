@@ -53,19 +53,15 @@ from espnet2.utils.types import int_or_none
 from espnet2.utils.types import str2bool
 from espnet2.utils.types import str_or_none
 
+
+
 frontend_choices = ClassChoices(
     name="frontend",
-    classes=dict(default=DefaultFrontend),
+    classes=dict(default=DefaultFrontend,
+                 wav2vec=Wav2vecFrontend),
     type_check=AbsFrontend,
     default="default",
 )
-
-# frontend_choices = ClassChoices(
-#     name="frontend",
-#     classes=dict(default=Wav2vecFrontend),
-#     type_check=AbsFrontend,
-#     default="default",
-# )
 
 specaug_choices = ClassChoices(
     name="specaug",
@@ -88,7 +84,8 @@ encoder_choices = ClassChoices(
     "encoder",
     classes=dict(
         conformer=ConformerEncoder,
-        transformer=Wav2vecTransformerEncoder,
+        transformer=TransformerEncoder,
+        wav2vec_transformer=Wav2vecTransformerEncoder,
         vgg_rnn=VGGRNNEncoder,
         rnn=RNNEncoder,
     ),
