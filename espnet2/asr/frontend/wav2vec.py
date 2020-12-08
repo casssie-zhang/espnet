@@ -74,7 +74,7 @@ class Wav2vecFrontend(AbsFrontend):
 
         with torch.no_grad():
             input_feats = self.feature_extractor(input) # freeze input
-        input_feats = input_feats.transpose(1,2)
+        # input_feats = input_feats.transpose(1,2)
         # input_feats = self.layer_norm(input_feats)
 
         input_feats = input_feats.detach()
