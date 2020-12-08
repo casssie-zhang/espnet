@@ -11,7 +11,7 @@ test_sets="test_dev93 test_eval92"
 
 ./asr.sh \
     --lang "en" \
-    --use_lm true \
+    --use_lm false \
     --token_type char \
     --nbpe 80 \
     --nlsyms_txt data/nlsyms.txt \
