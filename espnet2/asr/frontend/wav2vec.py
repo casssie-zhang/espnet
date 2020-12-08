@@ -47,7 +47,8 @@ class Wav2vecFrontend(AbsFrontend):
         """
         assert check_argument_types()
         super().__init__()
-        
+
+
         model, cfg, task = fairseq.checkpoint_utils.load_model_ensemble_and_task([model_path])
         print("Wav2Vec model successfully loaded!")
 
@@ -73,9 +74,11 @@ class Wav2vecFrontend(AbsFrontend):
 
         with torch.no_grad():
             input_feats = self.feature_extractor(input) # freeze input
-
         input_feats = input_feats.transpose(1,2)
         # input_feats = self.layer_norm(input_feats)
+
+        input_feats = input_feats.detach()
+
 
         feats_lens = []
         for lens in input_lengths:
