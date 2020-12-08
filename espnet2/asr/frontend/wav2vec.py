@@ -59,6 +59,7 @@ class Wav2vecFrontend(AbsFrontend):
 
 
         self.feature_extractor = model.feature_extractor
+        del model
         self.embedding_dim = embedding_dim
         self.layer_norm = LayerNorm(self.embedding_dim)
 

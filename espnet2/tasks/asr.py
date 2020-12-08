@@ -70,6 +70,7 @@ specaug_choices = ClassChoices(
     default=None,
     optional=True,
 )
+
 normalize_choices = ClassChoices(
     "normalize",
     classes=dict(

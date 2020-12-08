@@ -16,6 +16,7 @@ frontend_conf:
     model_path: /home/ubuntu/project/manifest/train/outputs/2020-12-04/06-26-12/checkpoints/checkpoint_best.pt
     embedding_dim: 512
 
+input_size: 512
 encoder: transformer
 encoder_conf:
     output_size: 256

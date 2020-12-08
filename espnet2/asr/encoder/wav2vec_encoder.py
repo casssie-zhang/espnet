@@ -83,11 +83,6 @@ class Wav2vecTransformerEncoder(AbsEncoder):
         model.feature_grad_mult = 0  # zero grad
         print("Conv feature extraction has been freezed")
 
-        self.projection = torch.nn.Sequential(
-                torch.nn.Linear(input_size, output_size),
-                torch.nn.LayerNorm(output_size),
-                torch.nn.Dropout(dropout_rate),
-                torch.nn.ReLU(),)
 
         self.wav2vec = model
         self._output_size = output_size
@@ -110,7 +105,7 @@ class Wav2vecTransformerEncoder(AbsEncoder):
         Returns:
             position embedded tensor and mask
         """
-        self.wav2vec.feature_grad_mult = 0
+        self.wav2vec.feature_grad_mult = 0 # make sure conv feature extraction has been freezed
         xs_pad = self.wav2vec.forward(xs_pad, mask=False, features_only=True)['x']
         feats_lens = []
         for lens in ilens:
