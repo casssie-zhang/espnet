@@ -16,7 +16,7 @@ encoder: wav2vec_transformer
 encoder_conf:
     output_size: 768
     dropout_rate: 0.1
-    model_path: /home/ubuntu/project/manifest/train/outputs/2020-12-04/06-26-12/checkpoints/checkpoint_best.pt
+    model_path: /home/ubuntu/project/manifest/train/outputs/2020-12-04/06-26-12/checkpoints/wav2vec_small.pt
 
 
 decoder: transformer
