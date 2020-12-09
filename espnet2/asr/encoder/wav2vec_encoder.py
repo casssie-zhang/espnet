@@ -108,9 +108,8 @@ class Wav2vecTransformerEncoder(AbsEncoder):
         masks = (~make_pad_mask(ilens)[:, None, :]).to(xs_pad.device)
         print(masks.shape)
 
-
         self.wav2vec.feature_grad_mult = 0 # make sure conv feature extraction has been freezed
-        xs_pad = self.wav2vec.forward(xs_pad, mask=masks, features_only=True)['x']
+        xs_pad = self.wav2vec.forward(xs_pad, mask=True, padding_mask=masks, features_only=True)['x']
         print(xs_pad[0,:,1])
         feats_lens = []
         for lens in ilens:
