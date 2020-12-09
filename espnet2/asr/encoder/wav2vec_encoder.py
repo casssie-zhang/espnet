@@ -105,15 +105,13 @@ class Wav2vecTransformerEncoder(AbsEncoder):
         Returns:
             position embedded tensor and mask
         """
-        print(xs_pad.shape)
-
         self.wav2vec.feature_grad_mult = 0 # make sure conv feature extraction has been freezed
         xs_pad = self.wav2vec.forward(xs_pad, mask=False, features_only=True)['x']
+        print(xs_pad[0,:,1])
         feats_lens = []
         for lens in ilens:
             feats_lens.append(get_output_lens(self.wav2vec.feature_extractor.conv_layers, lens))
         olens = torch.stack(feats_lens)
-        print(xs_pad.shape)
 
         # xs_pad = self.projection(xs_pad)
 
