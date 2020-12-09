@@ -334,7 +334,7 @@ class Trainer:
     @classmethod
     def train_one_epoch(
         cls,
-        final_layer_normmodel: torch.nn.Module,
+        model: torch.nn.Module,
         iterator: Iterable[Tuple[List[str], Dict[str, torch.Tensor]]],
         optimizers: Sequence[torch.optim.Optimizer],
         schedulers: Sequence[Optional[AbsScheduler]],
