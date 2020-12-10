@@ -374,7 +374,7 @@ class Trainer:
         iterator_stop = torch.tensor(0).to("cuda" if ngpu > 0 else "cpu")
 
         start_time = time.perf_counter()
-        with torch.autograd.set_detect_anomaly(False):
+        with torch.autograd.set_detect_anomaly(True):
             for iiter, (_, batch) in enumerate(
                 reporter.measure_iter_time(iterator, "iter_time"), 1
             ):
