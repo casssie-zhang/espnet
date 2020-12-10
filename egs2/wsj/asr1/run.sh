@@ -16,7 +16,7 @@ test_sets="test_dev93 test_eval92"
     --nbpe 80 \
     --nlsyms_txt data/nlsyms.txt \
     --lm_config conf/train_lm_transformer.yaml \
-    --asr_config conf/train_asr_transformer.yaml \
+    --asr_config conf/train_asr_transformer_wav2vec_frontend.yaml \
     --inference_config conf/decode.yaml \
     --train_set "${train_set}" \
     --valid_set "${valid_set}" \
