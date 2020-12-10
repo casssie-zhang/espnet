@@ -47,7 +47,7 @@ class ESPnetASRModel(AbsESPnetModel):
         decoder: AbsDecoder,
         ctc: CTC,
         rnnt_decoder: None,
-        is_wav2vec_encoder=True,
+        is_wav2vec_encoder=False,
         ctc_weight: float = 0.5,
         ignore_id: int = -1,
         lsm_weight: float = 0.0,
