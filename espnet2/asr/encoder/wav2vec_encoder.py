@@ -105,7 +105,7 @@ class Wav2vecTransformerEncoder(AbsEncoder):
         Returns:
             position embedded tensor and mask
         """
-        masks = (~make_pad_mask(ilens)).to(xs_pad.device)
+        masks = (make_pad_mask(ilens)).to(xs_pad.device)
         print(masks.shape)
         print(xs_pad.shape)
 
