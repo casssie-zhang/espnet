@@ -81,7 +81,7 @@ class Wav2vecTransformerEncoder(AbsEncoder):
             pass
 
         model.feature_grad_mult = 0  # zero grad
-        print("Conv feature extraction has been freezed")
+        print("Conv feature extraction has been freezed.")
 
 
         self.wav2vec = model
@@ -105,8 +105,13 @@ class Wav2vecTransformerEncoder(AbsEncoder):
         Returns:
             position embedded tensor and mask
         """
+        masks = (~make_pad_mask(ilens)).to(xs_pad.device)
+        print(masks.shape)
+        print(xs_pad.shape)
+
         self.wav2vec.feature_grad_mult = 0 # make sure conv feature extraction has been freezed
-        xs_pad = self.wav2vec.forward(xs_pad, mask=False, features_only=True)['x']
+        xs_pad = self.wav2vec.forward(xs_pad, mask=True, padding_mask=masks, features_only=True)['x']
+        print(xs_pad[0,:,1])
         feats_lens = []
         for lens in ilens:
             feats_lens.append(get_output_lens(self.wav2vec.feature_extractor.conv_layers, lens))
