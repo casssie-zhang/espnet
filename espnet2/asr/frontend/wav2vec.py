@@ -53,14 +53,13 @@ class Wav2vecFrontend(AbsFrontend):
         print("Wav2Vec model successfully loaded!")
 
         model = model[0]
-        if type(model) == Wav2VecCtc:
+        if type(model) == Wav2VecCtc: # fine-tune model type
             model = model.w2v_encoder.w2v_model
-        elif type(model) == Wav2Vec2Model:
+        elif type(model) == Wav2Vec2Model: # pre-train model type
             pass
 
 
         self.feature_extractor = model.feature_extractor
-        del model
         self.embedding_dim = embedding_dim
         # self.layer_norm = LayerNorm(self.embedding_dim)
 
@@ -74,10 +73,8 @@ class Wav2vecFrontend(AbsFrontend):
 
         with torch.no_grad():
             input_feats = self.feature_extractor(input) # freeze input
-        input_feats = input_feats.transpose(1,2)
+            input_feats = input_feats.transpose(1,2)
         input_feats = self.layer_norm(input_feats)
-
-        input_feats = input_feats.detach()
 
 
         feats_lens = []
