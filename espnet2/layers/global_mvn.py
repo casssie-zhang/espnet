@@ -53,7 +53,11 @@ class GlobalMVN(AbsNormalize, InversibleInterface):
             var = sum_square_v / count - mean * mean
         std = np.sqrt(np.maximum(var, eps))
 
-        print("=== mean: ", mean, "===")
+        print("=== mean ===")
+        print(mean)
+        if type(mean) == np.ndarray:
+            print(mean.shape)
+
         self.register_buffer("mean", torch.from_numpy(mean))
         self.register_buffer("std", torch.from_numpy(std))
 
