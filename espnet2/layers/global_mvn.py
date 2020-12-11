@@ -58,6 +58,17 @@ class GlobalMVN(AbsNormalize, InversibleInterface):
         if type(mean) == np.ndarray:
             print(mean.shape)
 
+
+        #HACK: This is a hack to get torch to read the mean and std properly if
+        # they happen to just evaluate to number-like values (float/int) and not
+        # an ndarray. Major assumption here is that the npz stats file only contains
+        # numpy datatypes
+
+        if(isinstance(mean, np.number)):
+            mean = np.array(mean)
+        if(isinstance(std, np.number)):
+            std = np.array(std)
+
         self.register_buffer("mean", torch.from_numpy(mean))
         self.register_buffer("std", torch.from_numpy(std))
 
