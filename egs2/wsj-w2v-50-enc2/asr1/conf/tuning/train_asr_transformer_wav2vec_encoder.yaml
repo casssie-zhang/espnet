@@ -1,0 +1,44 @@
+batch_type: folded
+batch_size: 16
+accum_grad: 8
+max_epoch: 50
+patience: none
+# The initialization method for model parameters
+init: xavier_uniform
+best_model_criterion:
+-   - valid
+    - acc
+    - max
+keep_nbest_models: 10
+
+# replace encoder with wav2vec encoder
+encoder: wav2vec_transformer
+encoder_conf:
+    output_size: 768
+    dropout_rate: 0.1
+    model_path: /home/ras306/Classwork/Project/Wav2Vec/model/checkpoint_best.pt
+    #model_path: /home/ras306/Classwork/Project/Wav2Vec/model/wav2vec_small.pt 
+#/home/ubuntu/project/model/wav2vec_small.pt
+
+decoder: transformer
+decoder_conf:
+    attention_heads: 4
+    linear_units: 2048
+    num_blocks: 6
+    dropout_rate: 0.1
+    positional_dropout_rate: 0.1
+    self_attention_dropout_rate: 0.0
+    src_attention_dropout_rate: 0.0
+
+model_conf:
+    ctc_weight: 0.3
+    lsm_weight: 0.1
+    length_normalized_loss: false
+    is_wav2vec_encoder: true # if use wav2vec encoder
+
+optim: adam
+optim_conf:
+    lr: 0.005
+scheduler: warmuplr
+scheduler_conf:
+    warmup_steps: 30000

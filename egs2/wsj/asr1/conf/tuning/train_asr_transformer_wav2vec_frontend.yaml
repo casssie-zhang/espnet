@@ -13,10 +13,11 @@ keep_nbest_models: 10
 
 frontend: wav2vec
 frontend_conf:
-    model_path: /home/ubuntu/project/model/wav2vec_small.pt
+    model_path: /home/ras306/Classwork/Project/Wav2Vec/model/wav2vec_small.pt 
+    #model_path: /home/ras306/Classwork/Project/Wav2Vec/model/checkpoint_best.pt
     embedding_dim: 512
 
-input_size: 512
+#input_size: 257687
 encoder: transformer
 encoder_conf:
     output_size: 256
@@ -44,7 +45,7 @@ model_conf:
     ctc_weight: 0.3
     lsm_weight: 0.1
     length_normalized_loss: false
-    is_wav2vec_encoder: false # if use wav2vec encoder
+    is_wav2vec_encoder: false # if use wav2vec encoder set to true
 
 optim: adam
 optim_conf:

@@ -50,7 +50,7 @@ class Wav2vecFrontend(AbsFrontend):
 
 
         model, cfg, task = fairseq.checkpoint_utils.load_model_ensemble_and_task([model_path])
-        print("Wav2Vec model successfully loaded!")
+        print("Wav2vec Front end successfully loaded")
 
         model = model[0]
         if type(model) == Wav2VecCtc: # fine-tune model type
@@ -61,6 +61,7 @@ class Wav2vecFrontend(AbsFrontend):
 
         self.feature_extractor = model.feature_extractor
         self.embedding_dim = embedding_dim
+        self.embedding_dim = 257687
         # self.layer_norm = LayerNorm(self.embedding_dim)
 
 
@@ -71,10 +72,14 @@ class Wav2vecFrontend(AbsFrontend):
         self, input: torch.Tensor, input_lengths: torch.Tensor
     ) -> Tuple[torch.Tensor, torch.Tensor]:
 
+
+        print("RAV-DEET:", input.shape)
+
         with torch.no_grad():
             input_feats = self.feature_extractor(input) # freeze input
             input_feats = input_feats.transpose(1,2)
-        input_feats = self.layer_norm(input_feats)
+
+        # input_feats = self.layer_norm(input_feats)
 
 
         feats_lens = []
@@ -82,4 +87,5 @@ class Wav2vecFrontend(AbsFrontend):
             feats_lens.append(get_output_lens(self.feature_extractor.conv_layers, lens))
         feats_lens = torch.stack(feats_lens)
 
+        print("RAV-DEET", input_feats.shape)
         return input_feats, feats_lens

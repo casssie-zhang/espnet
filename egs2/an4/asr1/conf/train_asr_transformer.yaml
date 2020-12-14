@@ -1,7 +1,7 @@
 batch_type: folded
-batch_size: 64
+batch_size: 32
 accum_grad: 2
-max_epoch: 200
+max_epoch: 1
 patience: none
 # The initialization method for model parameters
 init: xavier_uniform
@@ -27,7 +27,8 @@ encoder: wav2vec_transformer
 encoder_conf:
     output_size: 768
     dropout_rate: 0.1
-    model_path: /home/ubuntu/project/model/wav2vec_small.pt
+    model_path: /home/ras306/Classwork/Project/Wav2Vec/model/wav2vec_small.pt
+#    model_path: /home/ubuntu/project/model/wav2vec_small.pt
 
 decoder: transformer
 decoder_conf:

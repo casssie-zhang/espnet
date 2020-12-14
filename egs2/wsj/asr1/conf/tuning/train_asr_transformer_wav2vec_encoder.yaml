@@ -16,8 +16,9 @@ encoder: wav2vec_transformer
 encoder_conf:
     output_size: 768
     dropout_rate: 0.1
-    model_path: /home/ubuntu/project/model/wav2vec_small.pt
-
+    model_path: /home/ras306/Classwork/Project/Wav2Vec/model/wav2vec_small.pt 
+#    model_path: /home/ras306/Classwork/Project/Wav2Vec/model/checkpoint_best.pt
+#/home/ubuntu/project/model/wav2vec_small.pt
 
 decoder: transformer
 decoder_conf:

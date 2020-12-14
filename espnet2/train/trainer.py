@@ -374,7 +374,7 @@ class Trainer:
         iterator_stop = torch.tensor(0).to("cuda" if ngpu > 0 else "cpu")
 
         start_time = time.perf_counter()
-        with torch.autograd.set_detect_anomaly(True):
+        with torch.autograd.set_detect_anomaly(False):
             for iiter, (_, batch) in enumerate(
                 reporter.measure_iter_time(iterator, "iter_time"), 1
             ):
@@ -393,7 +393,7 @@ class Trainer:
                 with autocast(scaler is not None):
                     with reporter.measure_time("forward_time"):
                         loss, stats, weight = model(**batch)
-                        print(loss)
+                        # print(loss)
                     stats = {k: v for k, v in stats.items() if v is not None}
                     if ngpu > 1 or distributed:
                         # Apply weighted averaging for loss and stats
